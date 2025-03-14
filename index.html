@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="stlye.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clash Royale Random Deck Generator</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Clash Royale Random Deck Generator</h1>
+        <button id="generateButton">Generate Random Deck</button>
+        <div id="deckContainer"></div>
+        <button id="exportButton">Copy Deck</button>
+    </div>
+
+    <script>
+        const cards = [
+            'Archer', 'Giant', 'Fireball', 'Mega Minion', 'Queen', 'Knight', 'Baby Dragon', 'Cannon', 'Bowler', 'Hog Rider',
+            'Goblin Barrel', 'Golem', 'Lightning', 'Inferno Tower', 'Night Witch', 'P.E.K.K.A', 'Zap', 'Rocket', 'X-Bow', 'Graveyard',
+            'Miner', 'Electro Wizard', 'Ice Spirit', 'Tornado', 'Skeletons', 'Valkyrie', 'Princess', 'Witch', 'Royal Giant', 'Elixir Collector',
+            'Goblin Gang', 'Mega Minion', 'Electro Dragon', 'Furnace', 'Royal Hogs', 'Balloon', 'Arrows', 'Freeze', 'Bats', 'Log',
+            'Barbarian Barrel', 'Giant Skeleton', 'Lightning', 'Hunter', 'Magic Archer', 'Ice Golem', 'Cannon Cart', 'Clash Royale', 'Wall Breakers',
+            'Bomb Tower', 'Tornado', 'Graveyard', 'Barbarian Hut', 'Spells', 'Fire Spirits', 'Electro Giant', 'Giant Hog', 'Earthquake'
+        ];
+
+        function generateRandomDeck() {
+            const shuffled = cards.sort(() => 0.5 - Math.random()); 
+            return shuffled.slice(0, 8);
+        }
+
+        function displayDeck(deck) {
+            const deckContainer = document.getElementById('deckContainer');
+            deckContainer.innerHTML = ''; 
+            deck.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'card';
+                cardElement.textContent = card;
+                deckContainer.appendChild(cardElement);
+            });
+        }
+
+        function exportDeck() {
+            const deck = [...document.querySelectorAll('.card')].map(card => card.textContent).join(', ');
+            navigator.clipboard.writeText(deck).then(() => {
+                const message = document.createElement('div');
+                message.className = 'verification-message';
+                message.textContent = "Deck copied to clipboard! You can now paste it into your Clash Royale dick.";
+
+                document.body.appendChild(message);
+
+                setTimeout(() => {
+                    message.remove();
+                }, 3000);
+            }).catch(err => {
+                alert("Failed to copy deck. Please try again.");
+            });
+        }
+
+        document.getElementById('generateButton').addEventListener('click', () => {
+            const deck = generateRandomDeck();
+            displayDeck(deck);
+        });
+
+        document.getElementById('exportButton').addEventListener('click', exportDeck);
+    </script>
+</body>
+</html>
