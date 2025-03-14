@@ -1,11 +1,11 @@
 // List of all Clash Royale cards
 const cards = [
-    'Archer', 'Giant', 'Fireball', 'Mega Minion', 'Queen', 'Knight', 'Baby Dragon', 'Cannon', 'Bowler', 'Hog Rider',
+    'Skeleton Dragons', 'Battle Ram', 'Wizard', 'Barbarians', 'Tombstone', 'Bomber', 'Goblin Cage', 'Goblin Hut', 'Spear Goblins', 'Goblins', 'Mini P.E.K.K.A', 'Archer', 'Musketeer', 'Giant', 'Fireball', 'Mega Minion', 'Queen', 'Knight', 'Baby Dragon', 'Cannon', 'Bowler', 'Hog Rider',
     'Goblin Barrel', 'Golem', 'Lightning', 'Inferno Tower', 'Night Witch', 'P.E.K.K.A', 'Zap', 'Rocket', 'X-Bow', 'Graveyard',
     'Miner', 'Electro Wizard', 'Ice Spirit', 'Tornado', 'Skeletons', 'Valkyrie', 'Princess', 'Witch', 'Royal Giant', 'Elixir Collector',
-    'Goblin Gang', 'Mega Minion', 'Electro Dragon', 'Furnace', 'Royal Hogs', 'Balloon', 'Arrows', 'Freeze', 'Bats', 'Log',
+    'Goblin Gang', 'Minions', 'Electro Dragon', 'Furnace', 'Royal Hogs', 'Balloon', 'Arrows', 'Freeze', 'Bats', 'Log',
     'Barbarian Barrel', 'Giant Skeleton', 'Lightning', 'Hunter', 'Magic Archer', 'Ice Golem', 'Cannon Cart', 'Clash Royale', 'Wall Breakers',
-    'Bomb Tower', 'Tornado', 'Graveyard', 'Barbarian Hut', 'Spells', 'Fire Spirits', 'Electro Giant', 'Giant Hog', 'Earthquake'
+    'Bomb Tower', 'Tornado', 'Graveyard', 'Barbarian Hut', 'Spells', 'Fire Spirit', 'Electro Giant', 'Giant Hog', 'Earthquake'
 ];
 
 // Function to generate a random deck of 8 cards
@@ -29,23 +29,16 @@ function displayDeck(deck) {
 // Function to export the deck to clipboard (with verification)
 function exportDeck() {
     const deck = [...document.querySelectorAll('.card')].map(card => card.textContent).join(', '); // Get all cards
-    navigator.clipboard.writeText(deck).then(() => {
-        // Create the verification message
-        const message = document.createElement('div');
-        message.className = 'verification-message';
-        message.textContent = "Deck copied to clipboard! You can now paste it into your Clash Royale deck.";
-
-        // Append the message to the body
-        document.body.appendChild(message);
-
-        // Automatically remove the message after a few seconds
-        setTimeout(() => {
-            message.remove();
-        }, 3000); // Message disappears after 3 seconds
+    const formattedDeck = `Clash Royale Deck: ${deck}`; // Format deck for easy copy-pasting
+    
+    navigator.clipboard.writeText(formattedDeck).then(() => {
+        alert("Deck copied to clipboard! You can now paste it into your Clash Royale deck.");
+        document.getElementById('clashRoyaleLink').style.display = 'inline'; // Show the Clash Royale link
     }).catch(err => {
         alert("Failed to copy deck. Please try again.");
     });
 }
+
 
 
 

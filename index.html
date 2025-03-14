@@ -1,20 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="stlye.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clash Royale Random Deck Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #generateButton, #exportButton {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        #deck {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            margin: 10px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80px;
+            text-align: center;
+        }
+
+        #deckLinkContainer {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Clash Royale Random Deck Generator</h1>
         <button id="generateButton">Generate Random Deck</button>
-        <div id="deckContainer"></div>
+        <div id="deck"></div>
         <button id="exportButton">Copy Deck</button>
+        
+        <!-- This will display the deck link -->
+        <div id="deckLinkContainer">
+            <p>Click the link to import this deck into Clash Royale:</p>
+            <a id="deckLink" href="#" target="_blank">Deck Link</a>
+        </div>
     </div>
 
     <script>
+        // List of all Clash Royale cards
         const cards = [
             'Archer', 'Giant', 'Fireball', 'Mega Minion', 'Queen', 'Knight', 'Baby Dragon', 'Cannon', 'Bowler', 'Hog Rider',
             'Goblin Barrel', 'Golem', 'Lightning', 'Inferno Tower', 'Night Witch', 'P.E.K.K.A', 'Zap', 'Rocket', 'X-Bow', 'Graveyard',
@@ -24,45 +71,58 @@
             'Bomb Tower', 'Tornado', 'Graveyard', 'Barbarian Hut', 'Spells', 'Fire Spirits', 'Electro Giant', 'Giant Hog', 'Earthquake'
         ];
 
+        // Function to generate a random deck of 8 cards
         function generateRandomDeck() {
-            const shuffled = cards.sort(() => 0.5 - Math.random()); 
-            return shuffled.slice(0, 8);
+            const shuffled = cards.sort(() => 0.5 - Math.random()); // Shuffle the array randomly
+            return shuffled.slice(0, 8); // Take the first 8 cards after shuffling
         }
 
+        // Function to display the generated deck
         function displayDeck(deck) {
-            const deckContainer = document.getElementById('deckContainer');
-            deckContainer.innerHTML = ''; 
+            const deckContainer = document.getElementById('deck');
+            deckContainer.innerHTML = ''; // Clear previous deck
             deck.forEach(card => {
                 const cardElement = document.createElement('div');
                 cardElement.className = 'card';
                 cardElement.textContent = card;
-                deckContainer.appendChild(cardElement);
+                deckContainer.appendChild(cardElement); // Add each card to the deck display
             });
         }
 
+        // Function to export the deck to clipboard (with verification)
         function exportDeck() {
-            const deck = [...document.querySelectorAll('.card')].map(card => card.textContent).join(', ');
-            navigator.clipboard.writeText(deck).then(() => {
-                const message = document.createElement('div');
-                message.className = 'verification-message';
-                message.textContent = "Deck copied to clipboard! You can now paste it into your Clash Royale dick.";
+            const deck = [...document.querySelectorAll('.card')].map(card => card.textContent).join(', '); // Get all cards
+            const formattedDeck = `Clash Royale Deck: ${deck}`; // Format deck for easy copy-pasting
 
-                document.body.appendChild(message);
+            // Mock Deck Code for demonstration. In practice, you'd generate this from a third-party service.
+            const deckCode = "XXXX"; // Replace with actual deck code generation logic or tool
 
-                setTimeout(() => {
-                    message.remove();
-                }, 3000);
+            // Construct the deck URL
+            const deckUrl = `https://link.clashroyale.com/deck/en?deck=${deckCode}`;
+
+            // Display the link
+            const deckLinkContainer = document.getElementById('deckLinkContainer');
+            const deckLink = document.getElementById('deckLink');
+            deckLink.href = deckUrl; // Set the generated URL
+            deckLink.textContent = `Click to import your deck: ${formattedDeck}`;
+
+            deckLinkContainer.style.display = 'block'; // Show the link container
+
+            // Optionally, copy the formatted deck text to the clipboard
+            navigator.clipboard.writeText(formattedDeck).then(() => {
+                alert("Deck copied to clipboard! You can now paste it into your Clash Royale deck.");
             }).catch(err => {
                 alert("Failed to copy deck. Please try again.");
             });
         }
 
+        // Event listeners
         document.getElementById('generateButton').addEventListener('click', () => {
-            const deck = generateRandomDeck();
-            displayDeck(deck);
+            const deck = generateRandomDeck(); // Generate random deck
+            displayDeck(deck); // Display the generated deck
         });
 
-        document.getElementById('exportButton').addEventListener('click', exportDeck);
+        document.getElementById('exportButton').addEventListener('click', exportDeck); // Set up export function
     </script>
 </body>
 </html>
